@@ -1,0 +1,608 @@
+{
+    "apple_pie": {
+        "matched_item": "apple pie",
+        "calories_per_100g": 70.0,
+        "kj_per_100g": 292.88,
+        "match_score": 0.8888888888888888
+    },
+    "baby_back_ribs": {
+        "matched_item": "baby back ribs",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.8571428571428571
+    },
+    "baklava": {
+        "matched_item": "baklava",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "beef_carpaccio": {
+        "matched_item": "beef carpaccio",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9285714285714286
+    },
+    "beef_tartare": {
+        "matched_item": "beef tartare",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "beet_salad": {
+        "matched_item": "beet salad",
+        "calories_per_100g": 50.0,
+        "kj_per_100g": 209.2,
+        "match_score": 0.9
+    },
+    "beignets": {
+        "matched_item": "beignets",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "bibimbap": {
+        "matched_item": "bibimbap",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "bread_pudding": {
+        "matched_item": "bread pudding",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9230769230769231
+    },
+    "breakfast_burrito": {
+        "matched_item": "breakfast burrito",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9411764705882353
+    },
+    "bruschetta": {
+        "matched_item": "bruschetta",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "caesar_salad": {
+        "matched_item": "caesar salad",
+        "calories_per_100g": 50.0,
+        "kj_per_100g": 209.2,
+        "match_score": 0.9166666666666666
+    },
+    "cannoli": {
+        "matched_item": "cannoli",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "caprese_salad": {
+        "matched_item": "caprese salad",
+        "calories_per_100g": 50.0,
+        "kj_per_100g": 209.2,
+        "match_score": 0.9230769230769231
+    },
+    "carrot_cake": {
+        "matched_item": "carrot cake",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.9090909090909091
+    },
+    "ceviche": {
+        "matched_item": "ceviche",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "cheesecake": {
+        "matched_item": "cheesecake",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 1.0
+    },
+    "cheese_plate": {
+        "matched_item": "cheese plate",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "chicken_curry": {
+        "matched_item": "chicken curry",
+        "calories_per_100g": 200.0,
+        "kj_per_100g": 836.8000000000001,
+        "match_score": 0.9230769230769231
+    },
+    "chicken_quesadilla": {
+        "matched_item": "chicken quesadilla",
+        "calories_per_100g": 200.0,
+        "kj_per_100g": 836.8000000000001,
+        "match_score": 0.9444444444444444
+    },
+    "chicken_wings": {
+        "matched_item": "chicken wings",
+        "calories_per_100g": 200.0,
+        "kj_per_100g": 836.8000000000001,
+        "match_score": 0.9230769230769231
+    },
+    "chocolate_cake": {
+        "matched_item": "chocolate cake",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.9285714285714286
+    },
+    "chocolate_mousse": {
+        "matched_item": "chocolate mousse",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.9375
+    },
+    "churros": {
+        "matched_item": "churros",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "clam_chowder": {
+        "matched_item": "clam chowder",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "club_sandwich": {
+        "matched_item": "club sandwich",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9230769230769231
+    },
+    "crab_cakes": {
+        "matched_item": "crab cakes",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.9
+    },
+    "creme_brulee": {
+        "matched_item": "creme brulee",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "croque_madame": {
+        "matched_item": "croque madame",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9230769230769231
+    },
+    "cup_cakes": {
+        "matched_item": "cup cakes",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.8888888888888888
+    },
+    "deviled_eggs": {
+        "matched_item": "deviled eggs",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "donuts": {
+        "matched_item": "donuts",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "dumplings": {
+        "matched_item": "dumplings",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "edamame": {
+        "matched_item": "edamame",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "eggs_benedict": {
+        "matched_item": "eggs benedict",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9230769230769231
+    },
+    "escargots": {
+        "matched_item": "escargots",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "falafel": {
+        "matched_item": "falafel",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "filet_mignon": {
+        "matched_item": "filet mignon",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "fish_and_chips": {
+        "matched_item": "fish and chips",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.8571428571428571
+    },
+    "foie_gras": {
+        "matched_item": "foie gras",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.8888888888888888
+    },
+    "french_fries": {
+        "matched_item": "french fries",
+        "calories_per_100g": 250.0,
+        "kj_per_100g": 1046.0,
+        "match_score": 0.9166666666666666
+    },
+    "french_onion_soup": {
+        "matched_item": "french onion soup",
+        "calories_per_100g": 80.0,
+        "kj_per_100g": 334.72,
+        "match_score": 0.8823529411764706
+    },
+    "french_toast": {
+        "matched_item": "french toast",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "fried_calamari": {
+        "matched_item": "fried calamari",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9285714285714286
+    },
+    "fried_rice": {
+        "matched_item": "fried rice",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9
+    },
+    "frozen_yogurt": {
+        "matched_item": "frozen yogurt",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9230769230769231
+    },
+    "garlic_bread": {
+        "matched_item": "garlic bread",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "gnocchi": {
+        "matched_item": "gnocchi",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "greek_salad": {
+        "matched_item": "greek salad",
+        "calories_per_100g": 50.0,
+        "kj_per_100g": 209.2,
+        "match_score": 0.9090909090909091
+    },
+    "grilled_cheese_sandwich": {
+        "matched_item": "grilled cheese sandwich",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9130434782608695
+    },
+    "grilled_salmon": {
+        "matched_item": "grilled salmon",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9285714285714286
+    },
+    "guacamole": {
+        "matched_item": "guacamole",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "gyoza": {
+        "matched_item": "gyoza",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "hamburger": {
+        "matched_item": "hamburger",
+        "calories_per_100g": 254.0,
+        "kj_per_100g": 1062.0,
+        "match_score": 1.0
+    },
+    "hot_and_sour_soup": {
+        "matched_item": "hot and sour soup",
+        "calories_per_100g": 80.0,
+        "kj_per_100g": 334.72,
+        "match_score": 0.8235294117647058
+    },
+    "hot_dog": {
+        "matched_item": "hot dog",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.8571428571428571
+    },
+    "huevos_rancheros": {
+        "matched_item": "huevos rancheros",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9375
+    },
+    "hummus": {
+        "matched_item": "hummus",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "ice_cream": {
+        "matched_item": "ice cream",
+        "calories_per_100g": 207.0,
+        "kj_per_100g": 866.0,
+        "match_score": 0.8888888888888888
+    },
+    "lasagna": {
+        "matched_item": "lasagna",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "lobster_bisque": {
+        "matched_item": "lobster bisque",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9285714285714286
+    },
+    "lobster_roll_sandwich": {
+        "matched_item": "lobster roll sandwich",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9047619047619048
+    },
+    "macaroni_and_cheese": {
+        "matched_item": "macaroni and cheese",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.8947368421052632
+    },
+    "macarons": {
+        "matched_item": "macarons",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "miso_soup": {
+        "matched_item": "miso soup",
+        "calories_per_100g": 80.0,
+        "kj_per_100g": 334.72,
+        "match_score": 0.8888888888888888
+    },
+    "mussels": {
+        "matched_item": "mussels",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "nachos": {
+        "matched_item": "nachos",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "omelette": {
+        "matched_item": "omelette",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "onion_rings": {
+        "matched_item": "onion rings",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9090909090909091
+    },
+    "oysters": {
+        "matched_item": "oysters",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "pad_thai": {
+        "matched_item": "pad thai",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.875
+    },
+    "paella": {
+        "matched_item": "paella",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "pancakes": {
+        "matched_item": "pancakes",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 1.0
+    },
+    "panna_cotta": {
+        "matched_item": "panna cotta",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9090909090909091
+    },
+    "peking_duck": {
+        "matched_item": "peking duck",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9090909090909091
+    },
+    "pho": {
+        "matched_item": "pho",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "pizza": {
+        "matched_item": "pizza",
+        "calories_per_100g": 266.0,
+        "kj_per_100g": 1113.0,
+        "match_score": 1.0
+    },
+    "pork_chop": {
+        "matched_item": "pork chop",
+        "calories_per_100g": 200.0,
+        "kj_per_100g": 836.8000000000001,
+        "match_score": 0.8888888888888888
+    },
+    "poutine": {
+        "matched_item": "poutine",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "prime_rib": {
+        "matched_item": "prime rib",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.8888888888888888
+    },
+    "pulled_pork_sandwich": {
+        "matched_item": "pulled pork sandwich",
+        "calories_per_100g": 200.0,
+        "kj_per_100g": 836.8000000000001,
+        "match_score": 0.9
+    },
+    "ramen": {
+        "matched_item": "ramen",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "ravioli": {
+        "matched_item": "ravioli",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "red_velvet_cake": {
+        "matched_item": "red velvet cake",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.8666666666666667
+    },
+    "risotto": {
+        "matched_item": "risotto",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "samosa": {
+        "matched_item": "samosa",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "sashimi": {
+        "matched_item": "sashimi",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "scallops": {
+        "matched_item": "scallops",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "seaweed_salad": {
+        "matched_item": "seaweed salad",
+        "calories_per_100g": 50.0,
+        "kj_per_100g": 209.2,
+        "match_score": 0.9230769230769231
+    },
+    "shrimp_and_grits": {
+        "matched_item": "shrimp and grits",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.875
+    },
+    "spaghetti_bolognese": {
+        "matched_item": "spaghetti bolognese",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9473684210526315
+    },
+    "spaghetti_carbonara": {
+        "matched_item": "spaghetti carbonara",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9473684210526315
+    },
+    "spring_rolls": {
+        "matched_item": "spring rolls",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "steak": {
+        "matched_item": "steak",
+        "calories_per_100g": 200.0,
+        "kj_per_100g": 836.8000000000001,
+        "match_score": 1.0
+    },
+    "strawberry_shortcake": {
+        "matched_item": "strawberry shortcake",
+        "calories_per_100g": 300.0,
+        "kj_per_100g": 1255.2,
+        "match_score": 0.95
+    },
+    "sushi": {
+        "matched_item": "sushi",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "tacos": {
+        "matched_item": "tacos",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "takoyaki": {
+        "matched_item": "takoyaki",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "tiramisu": {
+        "matched_item": "tiramisu",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    },
+    "tuna_tartare": {
+        "matched_item": "tuna tartare",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 0.9166666666666666
+    },
+    "waffles": {
+        "matched_item": "waffles",
+        "calories_per_100g": 150.0,
+        "kj_per_100g": 627.6,
+        "match_score": 1.0
+    }
+}
