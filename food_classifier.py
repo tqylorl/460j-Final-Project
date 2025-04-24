@@ -28,6 +28,7 @@ def load_and_preprocess_data():
     dataset = load_dataset("ethz/food101")
     
     # Extract training and validation sets
+    print("extracting training and validation sets")
     train_ds = dataset["train"]
     val_ds = dataset["validation"] if "validation" in dataset else dataset["test"]
     
@@ -47,6 +48,7 @@ def load_and_preprocess_data():
         return {"image": image, "label": example["label"]}
     
     # Apply preprocessing
+    print("preprocessing images")
     train_ds = train_ds.map(preprocess_image)
     val_ds = val_ds.map(preprocess_image)
     
@@ -65,6 +67,7 @@ def load_and_preprocess_data():
         return tf.data.Dataset.from_tensor_slices((images, labels_one_hot)).batch(batch_size)
     
     # Create TensorFlow datasets
+    print("creating tensorflow datasets")
     tf_train_ds = create_tf_dataset(train_ds)
     tf_val_ds = create_tf_dataset(val_ds)
     
