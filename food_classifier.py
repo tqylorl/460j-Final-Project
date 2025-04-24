@@ -5,14 +5,18 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+
 import tensorflow as tf
 from tensorflow.keras.applications import EfficientNetB0
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
-from datasets import load_dataset
+
+from datasets import load_dataset, Image
+
 from sklearn.metrics import classification_report, confusion_matrix
+
 import seaborn as sns
 import pandas as pd
 
@@ -25,7 +29,7 @@ def load_and_preprocess_data():
     Load the Food-101 dataset from HuggingFace and preprocess it
     """
     print("Loading Food-101 dataset...")
-    dataset = load_dataset("ethz/food101")
+    dataset = load_dataset("ethz/food101", cache_dir="./data")
     
     # Extract training and validation sets
     print("extracting training and validation sets")
@@ -35,7 +39,11 @@ def load_and_preprocess_data():
     # Get the class names
     class_names = train_ds.features["label"].names
     num_classes = len(class_names)
-    
+
+    # messing around, delete for final submission
+    for i in class_names:
+        print(i)
+
     # Define image size for EfficientNetB0
     img_size = (224, 224)
     
@@ -43,33 +51,42 @@ def load_and_preprocess_data():
     def preprocess_image(example):
         # Resize and normalize images
         image = example["image"]
+        image = tf.keras.utils.img_to_array(image)
         image = tf.image.resize(image, img_size)
         image = tf.cast(image, tf.float32) / 255.0
         return {"image": image, "label": example["label"]}
     
     # Apply preprocessing
     print("preprocessing images")
-    train_ds = train_ds.map(preprocess_image)
-    val_ds = val_ds.map(preprocess_image)
+
+    # make sure everything is the right format
+    train_ds = train_ds.cast_column("image", Image())
+    val_ds = val_ds.cast_column("image", Image())
+    
+    # edit num proc based on your cpu
+    train_ds = train_ds.map(preprocess_image, num_proc=8)
+    val_ds = val_ds.map(preprocess_image, num_proc=8)
+
+    # save to disk so we don't have to do this whole process over and over
+    train_ds.save_to_disk("preprocessed_food101_train")
+    val_ds.save_to_disk("preprocessed_food101_val")
     
     # Convert to TensorFlow datasets and batch
     batch_size = 32
     
-    def create_tf_dataset(hf_dataset):
-        # Extract images and labels
-        images = np.array([example["image"] for example in hf_dataset])
-        labels = np.array([example["label"] for example in hf_dataset])
-        
-        # Convert labels to one-hot encoding
-        labels_one_hot = tf.keras.utils.to_categorical(labels, num_classes=num_classes)
-        
-        # Create and return TensorFlow dataset
-        return tf.data.Dataset.from_tensor_slices((images, labels_one_hot)).batch(batch_size)
-    
     # Create TensorFlow datasets
     print("creating tensorflow datasets")
-    tf_train_ds = create_tf_dataset(train_ds)
-    tf_val_ds = create_tf_dataset(val_ds)
+    tf_train_ds = train_ds.with_format("tensorflow").to_tf_dataset(
+        columns=["image"],
+        label_cols="label",
+        batch_size=batch_size,
+        shuffle=True
+    )
+    tf_val_ds = val_ds.with_format("tensorflow").to_tf_dataset(
+        columns=["image"],
+        label_cols="label",
+        batch_size=batch_size
+    )
     
     print(f"Dataset loaded with {num_classes} food categories")
     return tf_train_ds, tf_val_ds, class_names
