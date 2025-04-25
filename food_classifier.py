@@ -5,6 +5,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import multiprocessing
 
 import tensorflow as tf
 from tensorflow.keras.applications import EfficientNetB0
@@ -63,9 +64,11 @@ def load_and_preprocess_data():
     train_ds = train_ds.cast_column("image", Image())
     val_ds = val_ds.cast_column("image", Image())
     
-    # edit num proc based on your cpu
-    train_ds = train_ds.map(preprocess_image, num_proc=8)
-    val_ds = val_ds.map(preprocess_image, num_proc=8)
+    # get number of cpus to use all resources
+    cpus = multiprocessing.cpu_count();
+    
+    train_ds = train_ds.map(preprocess_image, num_proc=cpus)
+    val_ds = val_ds.map(preprocess_image, num_proc=cpus)
 
     # save to disk so we don't have to do this whole process over and over
     train_ds.save_to_disk("preprocessed_food101_train")
