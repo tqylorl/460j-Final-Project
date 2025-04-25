@@ -47,23 +47,27 @@ def load_and_preprocess_data():
 
     # Define image size for EfficientNetB0
     img_size = (224, 224)
-    
-    # Define preprocessing function for images
-    def preprocess_image(example):
-        # Resize and normalize images
-        image = example["image"]
-        image = tf.keras.utils.img_to_array(image)
-        image = tf.image.resize(image, img_size)
-        image = tf.cast(image, tf.float32) / 255.0
-        return {"image": image, "label": example["label"]}
-    
-    # Apply preprocessing
-    print("preprocessing images")
 
     # make sure everything is the right format
     train_ds = train_ds.cast_column("image", Image())
     val_ds = val_ds.cast_column("image", Image())
     
+    # Define preprocessing function for images
+    def preprocess_image(example):
+        # Resize and normalize images
+        try:
+            image = example["image"]
+            image = tf.keras.utils.img_to_array(image)
+            image = tf.image.resize(image, img_size)
+            image = tf.cast(image, tf.float32) / 255.0
+            return {"image": image, "label": example["label"]}
+        except Exception as e:
+            print(f"Error processing image: {e}")
+            return {"image": tf.zeros((*img_size, 3)), "label": example["label"]}
+    
+    # Apply preprocessing
+    print("preprocessing images")
+
     # get number of cpus to use all resources
     cpus = multiprocessing.cpu_count();
     
