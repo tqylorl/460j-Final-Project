@@ -1,2 +1,5 @@
 venv/
+.venv/
 /__pycache__/*
+model_checkpoints/
+*.h5

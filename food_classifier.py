@@ -6,7 +6,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from tensorflow.keras.applications import EfficientNetB0
+from tensorflow.keras.applications import MobileNetV2  # Changed from EfficientNetB0 to MobileNetV2 (faster)
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.optimizers import Adam
@@ -31,12 +31,18 @@ def load_and_preprocess_data():
     train_ds = dataset["train"]
     val_ds = dataset["validation"] if "validation" in dataset else dataset["test"]
     
+    # SPEED OPTIMIZATION: Use only a subset of the data (10% of training, 20% of validation)
+    train_ds = train_ds.select(range(0, len(train_ds), 10))  # Take every 10th example
+    val_ds = val_ds.select(range(0, len(val_ds), 5))        # Take every 5th example
+    
+    print(f"Using reduced dataset: {len(train_ds)} training samples, {len(val_ds)} validation samples")
+    
     # Get the class names
     class_names = train_ds.features["label"].names
     num_classes = len(class_names)
     
-    # Define image size for EfficientNetB0
-    img_size = (224, 224)
+    # Define image size - reduced from 224x224 to 160x160 for faster processing
+    img_size = (160, 160)
     
     # Define preprocessing function for images
     def preprocess_image(example):
@@ -51,7 +57,8 @@ def load_and_preprocess_data():
     val_ds = val_ds.map(preprocess_image)
     
     # Convert to TensorFlow datasets and batch
-    batch_size = 32
+    # SPEED OPTIMIZATION: Increase batch size if your GPU has enough memory
+    batch_size = 64
     
     def create_tf_dataset(hf_dataset):
         # Extract images and labels
@@ -73,22 +80,20 @@ def load_and_preprocess_data():
 
 def create_model(num_classes):
     """
-    Create a CNN model for food classification using EfficientNetB0 with transfer learning
+    Create a CNN model for food classification using MobileNetV2 with transfer learning
     """
-    print("Creating model with EfficientNetB0 architecture...")
+    print("Creating model with MobileNetV2 architecture...")
     
-    # Load pre-trained EfficientNetB0 model without the top classification layer
-    base_model = EfficientNetB0(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+    # Load pre-trained MobileNetV2 model without the top classification layer
+    base_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=(160, 160, 3))
     
     # Freeze the base model layers for initial training
     base_model.trainable = False
     
-    # Add custom classification head
+    # Add custom classification head - simplified for faster training
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
     x = Dropout(0.5)(x)  # Add dropout for regularization
-    x = Dense(512, activation='relu')(x)
-    x = Dropout(0.3)(x)
     predictions = Dense(num_classes, activation='softmax')(x)
     
     # Create the complete model
@@ -123,7 +128,7 @@ def setup_callbacks():
     # Early stopping to prevent overfitting
     early_stopping = EarlyStopping(
         monitor='val_loss',
-        patience=10,
+        patience=5,  # Reduced from 10 to 5
         restore_best_weights=True,
         verbose=1
     )
@@ -132,14 +137,14 @@ def setup_callbacks():
     reduce_lr = ReduceLROnPlateau(
         monitor='val_loss',
         factor=0.2,
-        patience=5,
+        patience=3,  # Reduced from 5 to 3
         min_lr=1e-6,
         verbose=1
     )
     
     return [checkpoint, early_stopping, reduce_lr]
 
-def train_model(model, train_ds, val_ds, callbacks, epochs=30):
+def train_model(model, train_ds, val_ds, callbacks, epochs=10):  # Reduced from 30 to 10
     """
     Train the model with the provided datasets
     """
@@ -274,41 +279,36 @@ def evaluate_model(model, val_ds, class_names):
 
 def fine_tune_model(model, base_model, train_ds, val_ds, callbacks):
     """
-    Fine-tune the model by unfreezing some layers of the base model
+    Fine-tune the model by unfreezing some of the top layers of the base model
     """
     print("Fine-tuning the model...")
     
-    # Unfreeze some layers of the base model
-    # First, unfreeze all layers
+    # Unfreeze the top layers of the base model
     base_model.trainable = True
     
-    # Then, freeze the bottom layers (keeping 70% frozen, 30% trainable)
-    for layer in base_model.layers[:int(len(base_model.layers) * 0.7)]:
+    # Freeze all the layers except the top 20 layers
+    # SPEED OPTIMIZATION: Freeze more layers (only unfreeze the last 10 layers)
+    for layer in base_model.layers[:-10]:
         layer.trainable = False
     
-    # Count trainable and non-trainable parameters
-    trainable_count = np.sum([tf.keras.backend.count_params(w) for w in model.trainable_weights])
-    non_trainable_count = np.sum([tf.keras.backend.count_params(w) for w in model.non_trainable_weights])
-    print(f"Trainable parameters: {trainable_count:,}")
-    print(f"Non-trainable parameters: {non_trainable_count:,}")
-    
-    # Recompile the model with a lower learning rate for fine-tuning
+    # Recompile the model with a lower learning rate
     model.compile(
-        optimizer=Adam(learning_rate=1e-5),
+        optimizer=Adam(learning_rate=1e-4),  # Lower learning rate for fine-tuning
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
     
-    # Fine-tune the model
-    history = model.fit(
+    # Train the model with fine-tuning
+    fine_tune_epochs = 5  # Reduced from likely 10+ to 5
+    history_fine = model.fit(
         train_ds,
         validation_data=val_ds,
-        epochs=15,  # Fewer epochs for fine-tuning
+        epochs=fine_tune_epochs,
         callbacks=callbacks,
         verbose=1
     )
     
-    return history
+    return history_fine
 
 def save_class_mapping(class_names):
     """
@@ -322,46 +322,46 @@ def save_class_mapping(class_names):
 
 def main():
     """
-    Main function to execute the training pipeline
+    Main function to run the training pipeline
     """
-    # Load and preprocess data
+    # Create necessary directories
+    os.makedirs('models', exist_ok=True)
+    os.makedirs('results', exist_ok=True)
+    
+    # Load and preprocess the data
     train_ds, val_ds, class_names = load_and_preprocess_data()
     
-    # Create model
+    # Create the model
     model, base_model = create_model(len(class_names))
-    model.summary()
     
-    # Setup callbacks
+    # Set up callbacks
     callbacks = setup_callbacks()
     
-    # Initial training phase
-    print("\n===== Starting Initial Training Phase =====")
-    history = train_model(model, train_ds, val_ds, callbacks, epochs=20)
+    # Train the model
+    history = train_model(model, train_ds, val_ds, callbacks)
     
     # Visualize training progress
-    visualize_training(history, title_suffix="(Initial Training)")
+    visualize_training(history, "Initial Training")
     
-    # Fine-tuning phase
-    print("\n===== Starting Fine-Tuning Phase =====")
-    fine_tune_history = fine_tune_model(model, base_model, train_ds, val_ds, callbacks)
-    
-    # Visualize fine-tuning progress
-    visualize_training(fine_tune_history, title_suffix="(Fine-Tuning)")
-    
-    # Evaluate model
+    # Evaluate the model
     evaluate_model(model, val_ds, class_names)
     
-    # Visualize sample predictions
-    visualize_predictions(model, val_ds, class_names)
+    # Fine-tune the model
+    history_fine = fine_tune_model(model, base_model, train_ds, val_ds, callbacks)
     
-    # Save the final model
-    model.save('food_classifier_model.h5')
-    print("Model saved as 'food_classifier_model.h5'")
+    # Visualize fine-tuning progress
+    visualize_training(history_fine, "Fine Tuning")
     
-    # Save class mapping
+    # Evaluate the fine-tuned model
+    evaluate_model(model, val_ds, class_names)
+    
+    # Save the model and class mapping
+    model.save('models/food_classifier_model.h5')
     save_class_mapping(class_names)
     
-    print("Training and evaluation complete!")
+    print("Training completed and model saved successfully!")
 
 if __name__ == "__main__":
+    # Set TensorFlow to use CPU only as per requirements
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     main()
