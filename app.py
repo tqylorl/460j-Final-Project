@@ -276,7 +276,7 @@ elif app_mode == "📊 Nutrition Dashboard":
     col1, col2 = st.columns(2)
     with col1:
         st.image("https://images.unsplash.com/photo-1513104890138-7c749659a591", 
-                caption="Pizza Margherita", use_column_width=True)
+                caption="Pizza Margherita", use_container_width=True)
     
     with col2:
         st.plotly_chart(create_donut_chart(285), use_container_width=True)
@@ -337,7 +337,7 @@ else:  # Food Analysis mode (default)
             with col1:
                 # Display the image with enhanced styling
                 st.markdown("### Your Food")
-                st.image(pil_img, use_column_width=True, clamp=True, 
+                st.image(pil_img, use_container_width=True, clamp=True, 
                          output_format="PNG", channels="RGB", 
                          caption="Uploaded Image")
             
@@ -420,13 +420,13 @@ else:  # Food Analysis mode (default)
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.image("https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", caption="Pizza")
+            st.image("https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", caption="Pizza", use_container_width=True)
         with col2:
-            st.image("https://images.unsplash.com/photo-1546069901-ba9599a7e63c", caption="Salad")
+            st.image("https://images.unsplash.com/photo-1546069901-ba9599a7e63c", caption="Salad", use_container_width=True)
         with col3:
-            st.image("https://images.unsplash.com/photo-1563379926898-05f4575a45d8", caption="Sushi")
+            st.image("https://images.unsplash.com/photo-1563379926898-05f4575a45d8", caption="Sushi", use_container_width=True)
         with col4:
-            st.image("https://images.unsplash.com/photo-1586190848861-99aa4a171e90", caption="Burger")
+            st.image("https://images.unsplash.com/photo-1586190848861-99aa4a171e90", caption="Burger", use_container_width=True)
 
 # Footer
 st.markdown("""
