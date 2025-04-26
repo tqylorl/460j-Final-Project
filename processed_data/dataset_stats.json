@@ -1,6 +1,0 @@
-{
-    "train_samples": 75750,
-    "val_samples": 15150,
-    "test_samples": 10100,
-    "num_categories": 101
-}
