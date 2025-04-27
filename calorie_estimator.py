@@ -3,9 +3,6 @@ from food_classifier import classify_food
 
 from fuzzywuzzy import fuzz
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-
 # load calories data
 calories_df = pd.read_csv('data/calories.csv')
 
