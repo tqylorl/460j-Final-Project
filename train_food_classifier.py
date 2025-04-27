@@ -5,11 +5,14 @@ from torchvision import transforms, models
 from datasets import load_dataset
 from transformers import AutoImageProcessor
 
+import os
+from tqdm import tqdm
+
 # use gpu if we can (only works for nvidia for some reason ??? rip amd ig)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # load Food-101
-dataset = load_dataset("food101", split = "train[:5%]") # using small subset for testing
+dataset = load_dataset("food101", split = "train")
 
 # load processor
 processor = AutoImageProcessor.from_pretrained("facebook/deit-base-distilled-patch16-224", use_fast=True)
@@ -32,14 +35,22 @@ class FoodDataset(torch.utils.data.Dataset):
         return len(self.dataset)
 
     def __getitem__(self, idx):
-        item = self.dataset[idx]
-        image = item['image']
-        label = item['label']
+        try:
+            item = self.dataset[idx]
+            image = item['image']
+            label = item['label']
 
-        if self.transform:
-            image = self.transform(image)
+            if image.mode != "RGB":
+                image = image.convert("RGB")
 
-        return image, label
+            if self.transform:
+                image = self.transform(image)
+
+            return image, label
+        except Exception as e:
+            print(f"skipping bad data at index {idx} due to error: {e}")
+            next_idx = (idx + 1) % len(self.datase)
+            return self.__getitem__(next_idx)
 
 # create pytorch datasets
 train_ds = FoodDataset(dataset, transform=transform)
@@ -55,7 +66,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 
 # training loop
-epochs = 3
+epochs = 10
 for epoch in range(epochs):
     model.train()
     running_loss = 0.0
