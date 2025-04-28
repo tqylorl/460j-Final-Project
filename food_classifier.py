@@ -14,7 +14,10 @@ def classify_food(image_path):
     model.fc = torch.nn.Linear(model.fc.in_features, NUM_CLASSES)
 
     # load saved weights
-    model.load_state_dict(torch.load("./models/food101_resnet18.pth"))
+    if torch.cuda.is_available():
+        model.load_state_dict(torch.load("./models/food101_resnet18.pth"))
+    else:
+        model.load_state_dict(torch.load("./models/food101_resnet18.pth", map_location=torch.device('cpu')))
     model.eval()
 
     # define transform
