@@ -1,0 +1,15 @@
+# Core ML & Data Libraries
+torch>=2.0.0
+numpy>=1.24.0
+pandas>=2.0.0
+datasets>=2.10.0
+tensorflow>=2.10.0
+
+# Image Processing
+Pillow>=9.4.0
+
+# Web Interface
+streamlit>=1.22.0
+
+# Visualization
+matplotlib>=3.7.0 
