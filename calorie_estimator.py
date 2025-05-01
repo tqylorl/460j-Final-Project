@@ -15,7 +15,7 @@ def estimate_calories(predicted_food, weight_in_grams):
         # get calories per 100 grams
         cals_per_100g = food_row['Cals_per100grams'].values[0]
 
-        # calculate cals baesd on weight
+        # calculate cals based on weight
         estimated_calories = (cals_per_100g * weight_in_grams) / 100
         return estimated_calories
     else:
