@@ -1,0 +1,18 @@
+Model Performance Statistics
+=========================
+
+Overall Accuracy: 72.04%
+
+Top 5 Performing Classes:
+poutine: 91.60%
+spaghetti_carbonara: 91.60%
+macarons: 92.00%
+hot_and_sour_soup: 92.40%
+edamame: 98.00%
+
+Bottom 5 Performing Classes:
+pork_chop: 27.60%
+huevos_rancheros: 38.00%
+steak: 40.40%
+grilled_cheese_sandwich: 42.40%
+tuna_tartare: 42.80%
