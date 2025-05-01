@@ -5,6 +5,7 @@ import io
 
 from food_classifier import classify_food
 from calorie_estimator import estimate_calories
+from weight_estimator import FoodWeightEstimator
 
 import os
 
@@ -16,6 +17,9 @@ def main():
         layout="wide",
         initial_sidebar_state="expanded"
     )
+    
+    # Initialize weight estimator
+    weight_estimator = FoodWeightEstimator()
     
     # Custom CSS for modern styling with dark mode support
     st.markdown("""
@@ -95,7 +99,7 @@ def main():
                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
             <h1 style='color: white; text-align: center; margin: 0;'>FoodVision AI</h1>
             <p style='color: white; text-align: center; margin: 5px 0 0 0;'>
-                Smart Food Recognition
+                Smart Food Recognition & Analysis
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -105,14 +109,15 @@ def main():
         st.markdown("### ℹ️ About")
         st.info(
             "FoodVision AI uses advanced machine learning to identify food items "
-            "in images. Simply upload an image to get started!"
+            "and estimate their weight and calories. Simply upload an image to get started!"
         )
         
         st.markdown("### 📊 Features")
         st.markdown("""
-        - 🖼️ Image Recognition
+        - 🖼️ Food Recognition
+        - ⚖️ Weight Estimation
+        - 🔥 Calorie Calculation
         - 📱 Mobile-friendly Design
-        - 🔍 Real-time Analysis
         """)
 
     # Main content area
@@ -140,23 +145,26 @@ def main():
                 if st.button("🔍 Analyze Food", use_container_width=True):
                     with st.spinner("Analyzing image..."):
                         try:
-                            # Get food classification
-                            food_type = classify_food(temp_path)
-
-                            # get calories (assuming 200g for now)
-                            cals = estimate_calories(food_type, 200)
+                            # Get food analysis results
+                            analysis_result = weight_estimator.analyze_food_weight(temp_path)
+                            food_type = analysis_result['food_type']
+                            estimated_weight = analysis_result['estimated_weight_grams']
+                            
+                            # Calculate calories based on estimated weight
+                            cals = estimate_calories(food_type, estimated_weight)
                             
                             with col2:
                                 st.markdown("### 📊 Results")
                                 
-                                # Food type card with improved styling
+                                # Results card with improved styling
                                 st.markdown(f"""
                                     <div class='metric-card'>
                                         <h4>Detected Food</h4>
                                         <h3>{food_type.replace('_', ' ').title()}</h3>
+                                        <h4>Estimated Weight</h4>
+                                        <h3>{estimated_weight:.1f}g</h3>
                                         <h4>Estimated Calories</h4>
-                                        <h3>{cals}</h3>
-                                        <h3>
+                                        <h3>{cals:.1f}</h3>
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
@@ -184,6 +192,7 @@ def main():
         st.markdown("""
         1. Upload a food image
         2. Click 'Analyze Food'
+        3. View weight and calories
         """)
     with col5:
         st.markdown("### 🔍 Best Practices")
