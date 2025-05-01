@@ -2,7 +2,10 @@ import streamlit as st
 import torch
 from PIL import Image
 import io
+
 from food_classifier import classify_food
+from calorie_estimator import estimate_calories
+
 import os
 
 def main():
@@ -139,6 +142,9 @@ def main():
                         try:
                             # Get food classification
                             food_type = classify_food(temp_path)
+
+                            # get calories (assuming 200g for now)
+                            cals = estimate_calories(food_type, 200)
                             
                             with col2:
                                 st.markdown("### 📊 Results")
@@ -148,6 +154,9 @@ def main():
                                     <div class='metric-card'>
                                         <h4>Detected Food</h4>
                                         <h3>{food_type.replace('_', ' ').title()}</h3>
+                                        <h4>Estimated Calories</h4>
+                                        <h3>{cals}</h3>
+                                        <h3>
                                     </div>
                                 """, unsafe_allow_html=True)
                                 

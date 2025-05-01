@@ -19,7 +19,7 @@ def estimate_calories(predicted_food, weight_in_grams):
         estimated_calories = (cals_per_100g * weight_in_grams) / 100
         return estimated_calories
     else:
-        return None # predicted category not in csv
+        return estimated_calories(get_closest_food(predicted_food), 200) # predicted category not in csv
 
 # use fuzzing to get the closest match in the data if we don't have an exact match
 def get_closest_food(predicted_food):
@@ -47,8 +47,10 @@ def classify_and_estimate(image_path, weight_in_grams=100):
     else:
         print(f"unable to estimate calories for {predicted_food} or closest match")
 
+'''
 image_path = input("enter image path: ")
 food_weight = int(input("enter food weight (grams): "))
 
 classify_and_estimate(image_path, weight_in_grams=food_weight)
-        
+
+'''
