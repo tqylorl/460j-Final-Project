@@ -157,16 +157,28 @@ def main():
                                 st.markdown("### 📊 Results")
                                 
                                 # Results card with improved styling
-                                st.markdown(f"""
-                                    <div class='metric-card'>
-                                        <h4>Detected Food</h4>
-                                        <h3>{food_type.replace('_', ' ').title()}</h3>
-                                        <h4>Estimated Weight</h4>
-                                        <h3>{estimated_weight:.1f}g</h3>
-                                        <h4>Estimated Calories</h4>
-                                        <h3>{cals:.1f}</h3>
-                                    </div>
-                                """, unsafe_allow_html=True)
+                                if cals is not None:
+                                    st.markdown(f"""
+                                        <div class='metric-card'>
+                                            <h4>Detected Food</h4>
+                                            <h3>{food_type.replace('_', ' ').title()}</h3>
+                                            <h4>Estimated Weight</h4>
+                                            <h3>{estimated_weight:.1f}g</h3>
+                                            <h4>Estimated Calories</h4>
+                                            <h3>{cals:.1f}</h3>
+                                        </div>
+                                    """, unsafe_allow_html=True)
+                                else:
+                                    st.markdown(f"""
+                                        <div class='metric-card'>
+                                            <h4>Detected Food</h4>
+                                            <h3>{food_type.replace('_', ' ').title()}</h3>
+                                            <h4>Estimated Weight</h4>
+                                            <h3>{estimated_weight:.1f}g</h3>
+                                            <h4>Estimated Calories</h4>
+                                            <h3>N/A - Food type not in database</h3>
+                                        </div>
+                                    """, unsafe_allow_html=True)
                                 
                         except Exception as e:
                             st.error(f"Error during analysis: {str(e)}")

@@ -1,6 +1,5 @@
 import pandas as pd
 from food_classifier import classify_food
-
 from fuzzywuzzy import fuzz
 
 # load calories data
@@ -14,19 +13,24 @@ def estimate_calories(predicted_food, weight_in_grams):
     if not food_row.empty:
         # get calories per 100 grams
         cals_per_100g = food_row['Cals_per100grams'].values[0]
-
         # calculate cals based on weight
         estimated_calories = (cals_per_100g * weight_in_grams) / 100
         return estimated_calories
     else:
-        return estimated_calories(get_closest_food(predicted_food), 200) # predicted category not in csv
+        # Try with closest match
+        closest_food = get_closest_food(predicted_food)
+        food_row = calories_df[calories_df['FoodItem'] == closest_food]
+        if not food_row.empty:
+            cals_per_100g = food_row['Cals_per100grams'].values[0]
+            estimated_calories = (cals_per_100g * weight_in_grams) / 100
+            return estimated_calories
+        return None  # Return None if no match found
 
 # use fuzzing to get the closest match in the data if we don't have an exact match
 def get_closest_food(predicted_food):
-    closest_match = max(calories_df['FoodItem'], key=lambda x:fuzz.ratio(predicted_food.lower(), x.lower()))
-
+    closest_match = max(calories_df['FoodItem'], key=lambda x: fuzz.ratio(predicted_food.lower(), x.lower()))
     return closest_match
-    
+
 def classify_and_estimate(image_path, weight_in_grams=100):
     # predict which food
     predicted_food = classify_food(image_path)
@@ -34,18 +38,13 @@ def classify_and_estimate(image_path, weight_in_grams=100):
     # estimate calories
     calories = estimate_calories(predicted_food, weight_in_grams)
 
-    # if exact match  not found in data
-    if calories is None:
-        # get closest match
-        closest_food = get_closest_food(predicted_food)
-        print(f"predicted food: '{predicted_food}' not found. using closest match: {closest_food}")
-        calories = estimate_calories(closest_food, weight_in_grams)
-    
     if calories is not None:
         print(f"predicted food: {predicted_food}")
         print(f"estimated calories for {weight_in_grams} grams: {calories:.2f} kcal")
     else:
-        print(f"unable to estimate calories for {predicted_food} or closest match")
+        print(f"unable to estimate calories for {predicted_food}")
+
+    return calories
 
 '''
 image_path = input("enter image path: ")
