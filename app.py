@@ -1,104 +1,218 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import os
-import tensorflow as tf
+import torch
 from PIL import Image
-from datetime import datetime
-from datasets import load_dataset
+import io
 
-# project imports
-from config import MODELS_DIR, CALORIES_CSV, DEFAULT_PORTION_SIZE
-from utils import load_image, normalize_food_name, calculate_calories, save_results, create_visualization
+from food_classifier import classify_food
+from calorie_estimator import estimate_calories
+from weight_estimator import FoodWeightEstimator
 
-st.set_page_config(
-    page_title="Food Image Calorie Estimator",
-    page_icon="🍎",
-    layout="wide"
-)
+import os
 
-st.title("Food Image Calorie Estimator")
-st.markdown("""
-Upload a food image to classify the dish and estimate its caloric content.
-This app uses your Keras EfficientNetB0 model and a simple CSV lookup for calories.
-""")
+def main():
+    # Set page config first
+    st.set_page_config(
+        page_title="FoodVision AI",
+        page_icon="🍽️",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
+    
+    # Initialize weight estimator
+    weight_estimator = FoodWeightEstimator()
+    
+    # Custom CSS for modern styling with dark mode support
+    st.markdown("""
+        <style>
+        /* Base styles */
+        .main {
+            background-color: transparent;
+        }
+        
+        /* Button styling */
+        .stButton>button {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 20px;
+            padding: 10px 25px;
+            font-weight: bold;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .stButton>button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        
+        /* Card styling with dark mode support */
+        [data-testid="stSidebar"] {
+            background-color: rgba(0,0,0,0.1);
+        }
+        
+        .upload-section {
+            background-color: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .metric-card {
+            background-color: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin: 10px 0;
+        }
+        
+        .metric-card h3 {
+            color: #4CAF50;
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .metric-card h4 {
+            color: rgba(255,255,255,0.8);
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: normal;
+        }
+        
+        /* Dark mode specific adjustments */
+        @media (prefers-color-scheme: dark) {
+            .metric-card {
+                background-color: rgba(0,0,0,0.2);
+            }
+            .metric-card h4 {
+                color: rgba(255,255,255,0.7);
+            }
+        }
+        </style>
+        """, unsafe_allow_html=True)
+    
+    # Header with gradient background
+    st.markdown("""
+        <div style='background: linear-gradient(45deg, #4CAF50, #45a049);
+                   padding: 20px;
+                   border-radius: 10px;
+                   margin-bottom: 20px;
+                   box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+            <h1 style='color: white; text-align: center; margin: 0;'>FoodVision AI</h1>
+            <p style='color: white; text-align: center; margin: 5px 0 0 0;'>
+                Smart Food Recognition & Analysis
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
 
-@st.cache_resource
-def load_class_names():
-    ds = load_dataset("ethz/food101", split="train[:1]")  # small slice just to get names
-    return ds.features["label"].names
+    # Sidebar with info
+    with st.sidebar:
+        st.markdown("### ℹ️ About")
+        st.info(
+            "FoodVision AI uses advanced machine learning to identify food items "
+            "and estimate their weight and calories. Simply upload an image to get started!"
+        )
+        
+        st.markdown("### 📊 Features")
+        st.markdown("""
+        - 🖼️ Food Recognition
+        - ⚖️ Weight Estimation
+        - 🔥 Calorie Calculation
+        - 📱 Mobile-friendly Design
+        """)
 
-@st.cache_resource
-def load_keras_model():
-    model_path = os.path.join(MODELS_DIR, "food_classifier_model.h5")
-    return tf.keras.models.load_model(model_path)
+    # Main content area
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.markdown("### 📸 Upload Food Image")
+        uploaded_file = st.file_uploader(
+            "Drag and drop or click to upload",
+            type=["jpg", "jpeg", "png"],
+            help="Upload a clear image of a single food item"
+        )
+        
+        if uploaded_file is not None:
+            try:
+                # Display the uploaded image
+                image = Image.open(uploaded_file)
+                st.image(image, caption="Uploaded Image", use_container_width=True)
+                
+                # Save the uploaded file temporarily
+                temp_path = "temp_upload.jpg"
+                image.save(temp_path)
+                
+                # Analyze button with loading animation
+                if st.button("🔍 Analyze Food", use_container_width=True):
+                    with st.spinner("Analyzing image..."):
+                        try:
+                            # Get food analysis results
+                            analysis_result = weight_estimator.analyze_food_weight(temp_path)
+                            food_type = analysis_result['food_type']
+                            estimated_weight = analysis_result['estimated_weight_grams']
+                            
+                            # Calculate calories based on estimated weight
+                            cals = estimate_calories(food_type, estimated_weight)
+                            
+                            with col2:
+                                st.markdown("### 📊 Results")
+                                
+                                # Results card with improved styling
+                                if cals is not None:
+                                    st.markdown(f"""
+                                        <div class='metric-card'>
+                                            <h4>Detected Food</h4>
+                                            <h3>{food_type.replace('_', ' ').title()}</h3>
+                                            <h4>Estimated Weight</h4>
+                                            <h3>{estimated_weight:.1f}g</h3>
+                                            <h4>Estimated Calories</h4>
+                                            <h3>{cals:.1f}</h3>
+                                        </div>
+                                    """, unsafe_allow_html=True)
+                                else:
+                                    st.markdown(f"""
+                                        <div class='metric-card'>
+                                            <h4>Detected Food</h4>
+                                            <h3>{food_type.replace('_', ' ').title()}</h3>
+                                            <h4>Estimated Weight</h4>
+                                            <h3>{estimated_weight:.1f}g</h3>
+                                            <h4>Estimated Calories</h4>
+                                            <h3>N/A - Food type not in database</h3>
+                                        </div>
+                                    """, unsafe_allow_html=True)
+                                
+                        except Exception as e:
+                            st.error(f"Error during analysis: {str(e)}")
+                        finally:
+                            # Clean up temporary file
+                            if os.path.exists(temp_path):
+                                os.remove(temp_path)
+            except Exception as e:
+                st.error(f"Error processing image: {str(e)}")
+    
+    # Footer with tips
+    st.markdown("---")
+    col3, col4, col5 = st.columns(3)
+    with col3:
+        st.markdown("### 💡 Tips")
+        st.markdown("""
+        - Use well-lit, clear images
+        - Ensure the food item is clearly visible
+        - For best results, use images with a single food item
+        """)
+    with col4:
+        st.markdown("### ⚡ Quick Start")
+        st.markdown("""
+        1. Upload a food image
+        2. Click 'Analyze Food'
+        3. View weight and calories
+        """)
+    with col5:
+        st.markdown("### 🔍 Best Practices")
+        st.markdown("""
+        - Center the food in the frame
+        - Avoid shadows and glare
+        - Use a plain background
+        """)
 
-@st.cache_data
-def load_calorie_data():
-    df = pd.read_csv(CALORIES_CSV)
-    df['Cals_per100grams'] = pd.to_numeric(df['Cals_per100grams'], errors='coerce')
-    return df
-
-def preprocess_for_keras(uploaded_file):
-    # returns (PIL Image, np.array of shape (1,224,224,3))
-    pil_img, img_array = load_image(uploaded_file, target_size=(224,224))
-    return pil_img, np.expand_dims(img_array, axis=0)
-
-def predict_food_keras(model, img_batch, class_names, top_k=3):
-    probs = model.predict(img_batch)[0]
-    top_idxs = np.argsort(probs)[-top_k:][::-1]
-    return [(class_names[i], float(probs[i])) for i in top_idxs]
-
-def find_calorie_info(food_label, df):
-    clean = food_label.lower().replace('_',' ')
-    exact = df[df['FoodItem'].str.lower()==clean]
-    if not exact.empty: 
-        return exact.iloc[0]
-    partial = df[df['FoodItem'].str.lower().str.contains(clean)]
-    if not partial.empty: 
-        return partial.iloc[0]
-    return pd.Series({
-      'FoodCategory':'Unknown',
-      'FoodItem':food_label,
-      'per100grams':'100g',
-      'Cals_per100grams':np.nan,
-      'KJ_per100grams':np.nan
-    })
-
-# Main UI
-uploaded = st.file_uploader("Choose a food image", type=["jpg","png","jpeg"])
-portion = st.number_input("Portion size (g)", min_value=1, value=DEFAULT_PORTION_SIZE)
-
-if uploaded:
-    class_names = load_class_names()
-    model = load_keras_model()
-    calorie_df = load_calorie_data()
-
-    pil_img, batch = preprocess_for_keras(uploaded)
-    preds = predict_food_keras(model, batch, class_names)
-    st.image(pil_img, caption="Uploaded Image", use_column_width=True)
-
-    st.subheader("Top Predictions")
-    for label, prob in preds:
-        st.write(f"**{label.replace('_',' ').title()}** — {prob:.1%}")
-
-    best_label = preds[0][0]
-    calorie_row = find_calorie_info(best_label, calorie_df)
-    cals100 = calorie_row.get('Cals_per100grams', np.nan)
-    total_cals = calculate_calories(cals100 or 0, portion)
-
-    st.subheader("Calorie Estimate")
-    st.write(f"Food Item: **{calorie_row.get('FoodItem','Unknown').title()}**")
-    st.write(f"Calories per 100 g: **{cals100:.0f}**")
-    st.write(f"Portion: **{portion:.0f} g** → **{total_cals:.0f} kcal**")
-
-    # optional: show bar chart of top‑k
-    vis_buf = create_visualization(pil_img, ([i for i,_ in enumerate(preds)], [p for _,p in preds]))
-    if vis_buf:
-        st.image(vis_buf, caption="Confidence Scores", use_column_width=True)
-
-    if st.button("Save Results"):
-        success, path = save_results(pil_img, {"food_name":best_label,"confidence":preds[0][1]},
-                                     {"calories_per_100g":cals100,"portion_size_grams":portion,"total_calories":total_cals})
-        if success:
-            st.success(f"Results saved in `{path}`")
+if __name__ == "__main__":
+    main() 

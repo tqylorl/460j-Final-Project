@@ -1,0 +1,109 @@
+FoodCategory,FoodItem,per100grams,Cals_per100grams,KJ_per100grams
+Fruits,apple,100g,52,218.0
+Fruits,banana,100g,89,371.0
+Vegetables,carrot,100g,41,173.0
+Vegetables,broccoli,100g,34,141.0
+Grains,rice,100g,130,544.0
+Dairy,cheese,100g,402,1679.0
+Protein,chicken,100g,165,690.0
+Desserts,ice cream,100g,207,866.0
+Fast Food,pizza,100g,266,1113.0
+Fast Food,hamburger,100g,254,1062.0
+Fruits,apple pie,100g,70,292.88
+Other,baby back ribs,100g,150,627.6
+Other,baklava,100g,150,627.6
+Other,beef carpaccio,100g,150,627.6
+Other,beef tartare,100g,150,627.6
+Vegetables,beet salad,100g,50,209.20000000000002
+Other,beignets,100g,150,627.6
+Other,bibimbap,100g,150,627.6
+Other,bread pudding,100g,150,627.6
+Other,breakfast burrito,100g,150,627.6
+Other,bruschetta,100g,150,627.6
+Vegetables,caesar salad,100g,50,209.20000000000002
+Other,cannoli,100g,150,627.6
+Vegetables,caprese salad,100g,50,209.20000000000002
+Desserts,carrot cake,100g,300,1255.2
+Other,ceviche,100g,150,627.6
+Desserts,cheesecake,100g,300,1255.2
+Other,cheese plate,100g,150,627.6
+Protein,chicken curry,100g,200,836.8000000000001
+Protein,chicken quesadilla,100g,200,836.8000000000001
+Protein,chicken wings,100g,200,836.8000000000001
+Desserts,chocolate cake,100g,300,1255.2
+Desserts,chocolate mousse,100g,300,1255.2
+Other,churros,100g,150,627.6
+Other,clam chowder,100g,150,627.6
+Other,club sandwich,100g,150,627.6
+Desserts,crab cakes,100g,300,1255.2
+Other,creme brulee,100g,150,627.6
+Other,croque madame,100g,150,627.6
+Desserts,cup cakes,100g,300,1255.2
+Other,deviled eggs,100g,150,627.6
+Other,donuts,100g,150,627.6
+Other,dumplings,100g,150,627.6
+Other,edamame,100g,150,627.6
+Other,eggs benedict,100g,150,627.6
+Other,escargots,100g,150,627.6
+Other,falafel,100g,150,627.6
+Other,filet mignon,100g,150,627.6
+Other,fish and chips,100g,150,627.6
+Other,foie gras,100g,150,627.6
+Fast Food,french fries,100g,250,1046.0
+Soups,french onion soup,100g,80,334.72
+Other,french toast,100g,150,627.6
+Other,fried calamari,100g,150,627.6
+Grains,fried rice,100g,150,627.6
+Other,frozen yogurt,100g,150,627.6
+Other,garlic bread,100g,150,627.6
+Other,gnocchi,100g,150,627.6
+Vegetables,greek salad,100g,50,209.20000000000002
+Other,grilled cheese sandwich,100g,150,627.6
+Other,grilled salmon,100g,150,627.6
+Other,guacamole,100g,150,627.6
+Other,gyoza,100g,150,627.6
+Soups,hot and sour soup,100g,80,334.72
+Other,hot dog,100g,150,627.6
+Other,huevos rancheros,100g,150,627.6
+Other,hummus,100g,150,627.6
+Other,lasagna,100g,150,627.6
+Other,lobster bisque,100g,150,627.6
+Other,lobster roll sandwich,100g,150,627.6
+Other,macaroni and cheese,100g,150,627.6
+Other,macarons,100g,150,627.6
+Soups,miso soup,100g,80,334.72
+Other,mussels,100g,150,627.6
+Other,nachos,100g,150,627.6
+Other,omelette,100g,150,627.6
+Other,onion rings,100g,150,627.6
+Other,oysters,100g,150,627.6
+Other,pad thai,100g,150,627.6
+Other,paella,100g,150,627.6
+Desserts,pancakes,100g,300,1255.2
+Other,panna cotta,100g,150,627.6
+Other,peking duck,100g,150,627.6
+Other,pho,100g,150,627.6
+Protein,pork chop,100g,200,836.8000000000001
+Other,poutine,100g,150,627.6
+Other,prime rib,100g,150,627.6
+Protein,pulled pork sandwich,100g,200,836.8000000000001
+Other,ramen,100g,150,627.6
+Other,ravioli,100g,150,627.6
+Desserts,red velvet cake,100g,300,1255.2
+Other,risotto,100g,150,627.6
+Other,samosa,100g,150,627.6
+Other,sashimi,100g,150,627.6
+Other,scallops,100g,150,627.6
+Vegetables,seaweed salad,100g,50,209.20000000000002
+Other,shrimp and grits,100g,150,627.6
+Other,spaghetti bolognese,100g,150,627.6
+Other,spaghetti carbonara,100g,150,627.6
+Other,spring rolls,100g,150,627.6
+Protein,steak,100g,200,836.8000000000001
+Desserts,strawberry shortcake,100g,300,1255.2
+Other,sushi,100g,150,627.6
+Other,tacos,100g,150,627.6
+Other,takoyaki,100g,150,627.6
+Other,tiramisu,100g,150,627.6
+Other,tuna tartare,100g,150,627.6
+Other,waffles,100g,150,627.6
