@@ -8,5 +8,6 @@ tqdm>=4.65.0
 fuzzywuzzy
 python-Levenshtein
 streamlit
+timm
 
 numpy<2
