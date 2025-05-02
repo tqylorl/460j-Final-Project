@@ -54,6 +54,54 @@ class FoodWeightEstimator:
             transforms.Normalize(mean=[0.485, 0.456, 0.406], 
                               std=[0.229, 0.224, 0.225])
         ])
+
+        # Extended food density database (grams per cubic cm)
+        self.density_db = {
+            "pizza": 0.8,
+            "hamburger": 0.9,
+            "sushi": 1.0,
+            "steak": 1.2,
+            "salad": 0.3,
+            "pasta": 0.7,
+            "rice": 0.6,
+            "bread": 0.4,
+            "cake": 0.5,
+            "ice_cream": 0.6,
+            "soup": 1.0,
+            "french_fries": 0.5,
+            "chicken_curry": 0.9,
+            "beef_stew": 1.1,
+            "fish": 1.0,
+            "sandwich": 0.6,
+            "taco": 0.8,
+            "burrito": 0.9,
+            "apple_pie": 0.7,
+            "chocolate_cake": 0.6
+        }
+        
+        # Extended typical portion sizes (in grams)
+        self.portion_sizes = {
+            "pizza": (150, 350),      # Slice to medium pizza
+            "hamburger": (120, 250),  # Regular to large burger
+            "sushi": (30, 150),       # Single piece to roll
+            "pasta": (150, 350),      # Regular to large portion
+            "salad": (100, 250),      # Side to main course
+            "ice_cream": (80, 200),   # Small to large serving
+            "chocolate_cake": (80, 180),  # Slice sizes
+            "apple_pie": (120, 200),  # Slice sizes
+            "chicken_curry": (180, 400),  # Regular to large serving
+            "beef_stew": (180, 400),   # Regular to large serving
+            "rice": (100, 250),        # Side to main portion
+            "bread": (30, 100),        # Slice to multiple slices
+            "sandwich": (150, 300),    # Regular to club sandwich
+            "french_fries": (80, 200), # Small to large portion
+            "chicken_wings": (120, 300), # Few to many wings
+            "taco": (100, 200),        # Single to large taco
+            "burrito": (180, 350),     # Regular to large burrito
+            "soup": (200, 400),        # Bowl sizes
+            "steak": (150, 350),       # Different cut sizes
+            "fish": (120, 250)         # Fillet sizes
+        }
     
     def _create_food_feature(self, food_type):
         """Create one-hot encoded feature vector for food type"""
@@ -65,6 +113,23 @@ class FoodWeightEstimator:
             # If food type not found, use zeros (could be improved)
             pass
         return ft
+    
+    def _adjust_weight_estimate(self, food_type, raw_estimate):
+        """Adjust the raw model estimate based on food type and typical portions"""
+        food_type = food_type.lower().replace(" ", "_")
+        
+        # Get typical range for this food
+        min_weight, max_weight = self.portion_sizes.get(
+            food_type, (100, 300)  # Default range if food not found
+        )
+        
+        # Get food density
+        density = self.density_db.get(food_type, 1.0)
+        
+        # Adjust the raw estimate to be within reasonable bounds
+        adjusted_weight = np.clip(raw_estimate * density, min_weight, max_weight)
+        
+        return adjusted_weight
     
     def estimate_weight(self, image_path):
         """
@@ -85,9 +150,12 @@ class FoodWeightEstimator:
         with torch.no_grad():
             # Get weight prediction
             output = self.model(image_tensor, food_feature)
-            estimated_weight = float(output.item())
+            raw_estimate = float(output.item())
             
-            return max(0, estimated_weight)  # Ensure non-negative weight
+            # Adjust the estimate based on food type
+            adjusted_weight = self._adjust_weight_estimate(food_type, raw_estimate)
+            
+            return max(0, adjusted_weight)  # Ensure non-negative weight
     
     def analyze_food_weight(self, image_path):
         """
